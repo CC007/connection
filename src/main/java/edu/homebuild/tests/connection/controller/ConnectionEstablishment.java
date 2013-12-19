@@ -3,7 +3,7 @@
  */
 package edu.homebuild.tests.connection.controller;
 
-import edu.homebuild.tests.connection.message.Message;
+import edu.homebuild.tests.connection.message.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 /**
  * @author Rik Schaaf, University of Groningen
  */
-public final class ConnectionEstablishment extends Thread implements Connection {
+public class ConnectionEstablishment extends Thread implements Connection {
 
     public static final int DEFAULT_TIMEOUT = 10;
     private ByteArrayInputStream bin = null;
@@ -140,8 +140,8 @@ public final class ConnectionEstablishment extends Thread implements Connection 
 
     private void addMessageToBuffer() throws IOException, ClassNotFoundException {
         Object obj = in.readObject();
-        if (obj instanceof Message) {
-            Message msg = (Message) obj;
+        if (obj instanceof CommunicationMessage) {
+            CommunicationMessage msg = (CommunicationMessage) obj;
             if (msg.isRequest()) {
                 requestBuffer.add(msg);
             } else if (msg.isReply()) {
