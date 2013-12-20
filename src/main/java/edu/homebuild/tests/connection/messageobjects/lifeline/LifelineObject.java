@@ -6,8 +6,8 @@
 
 package edu.homebuild.tests.connection.messageobjects.lifeline;
 
-import edu.homebuild.tests.connection.controller.Connection;
 import edu.homebuild.tests.connection.messageobjects.ConnectionObject;
+import edu.homebuild.tests.connection.model.lifeline.DisconnectionDetector;
 import java.net.InetSocketAddress;
 
 /**
@@ -21,8 +21,12 @@ public class LifelineObject extends ConnectionObject{
     }
 
     @Override
-    public void handleMessage(Connection con) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void handleMessage(edu.homebuild.tests.connection.controller.Connection con, Object obj) {
+        if(obj instanceof DisconnectionDetector){
+           ((DisconnectionDetector)obj).setActive(true);
+        }else{
+            throw new IllegalArgumentException("The object should be a DisconnectionDetector");
+        }
     }
     
 }

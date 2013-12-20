@@ -6,7 +6,6 @@
 
 package edu.homebuild.tests.connection.messageobjects;
 
-import edu.homebuild.tests.connection.controller.Connection;
 import java.net.InetSocketAddress;
 
 /**
@@ -19,5 +18,5 @@ public abstract class CommunicationObject extends ConnectionObject{
         super(sender, receiver);
     }
 
-    public abstract void handleReply(Connection con);
+    public abstract void handleReply(edu.homebuild.tests.connection.controller.Connection con, Object obj);
 }

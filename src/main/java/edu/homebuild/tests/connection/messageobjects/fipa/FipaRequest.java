@@ -3,7 +3,6 @@
  */
 package edu.homebuild.tests.connection.messageobjects.fipa;
 
-import edu.homebuild.tests.connection.controller.Connection;
 import java.net.InetSocketAddress;
 
 /**
@@ -16,12 +15,12 @@ public class FipaRequest extends FipaObject {
     }
 
     @Override
-    public void handleMessage(Connection con) {
-        throw new UnsupportedOperationException("Not supported yet."); //TODO implement handleRequest.
+    public void handleReply(edu.homebuild.tests.connection.controller.Connection con, Object obj) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void handleReply(Connection con) {
-        throw new UnsupportedOperationException("Not supported yet."); //TODO implement handleReply.
+    public void handleMessage(edu.homebuild.tests.connection.controller.Connection con, Object obj) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

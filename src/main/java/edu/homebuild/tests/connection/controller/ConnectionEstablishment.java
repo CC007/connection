@@ -84,6 +84,10 @@ public class ConnectionEstablishment extends Thread implements Connection {
         return sendAddress;
     }
 
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
     @Override
     public final void run() {
         running = true;

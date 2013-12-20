@@ -24,7 +24,7 @@ public class TestObject extends CommunicationObject {
     }
 
     @Override
-    public void handleMessage(Connection con) {
+    public void handleMessage(edu.homebuild.tests.connection.controller.Connection con, Object obj) {
         if (status == PERFORM_TEST) {
             con.sendMessage(new TestMessage(TestMessage.MESSAGE_REPLY, TestMessage.TEST, new TestObject(TestObject.TEST_OK, receiver, sender)));
             System.out.println("Request received, reply send.");
@@ -32,7 +32,7 @@ public class TestObject extends CommunicationObject {
     }
 
     @Override
-    public void handleReply(Connection con) {
+    public void handleReply(edu.homebuild.tests.connection.controller.Connection con, Object obj) {
         if (status == TEST_OK) {
             System.out.println("Reply received, test succeeded!");
         }

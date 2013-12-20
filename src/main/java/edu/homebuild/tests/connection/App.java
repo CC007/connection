@@ -41,7 +41,7 @@ public class App {
             Message request = c2.receiveMessage();
             if(request.getMessageType() == TestMessage.TEST){
                 System.out.println("Testrequest ontvangen");
-                ((TestObject)request.getMessage()).handleMessage(c2);
+                ((TestObject)request.getMessage()).handleMessage(c2, null);
             }
             try {
                 Thread.sleep(100);
@@ -51,7 +51,7 @@ public class App {
             Message reply = c1.receiveReply();
             if(request.getMessageType() == TestMessage.TEST){
                 System.out.println("Testreply ontvangen");
-                ((TestObject)reply.getMessage()).handleReply(c1);
+                ((TestObject)reply.getMessage()).handleReply(c1, null);
             }
             c1.closeConnection();
             c2.closeConnection();
