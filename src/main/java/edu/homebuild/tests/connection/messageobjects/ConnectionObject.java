@@ -12,17 +12,16 @@ import java.net.InetSocketAddress;
  * @author Rik Schaaf, University of Groningen
  */
 
-public abstract class MessageObject implements Serializable{
+public abstract class ConnectionObject implements Serializable{
     
     protected InetSocketAddress sender;
     protected InetSocketAddress receiver;
 
-    public MessageObject(InetSocketAddress sender, InetSocketAddress receiver) {
+    public ConnectionObject(InetSocketAddress sender, InetSocketAddress receiver) {
         this.sender = sender;
         this.receiver = receiver;
     }
     
     
-    public abstract void handleRequest(Connection con);
-    public abstract void handleReply(Connection con);
+    public abstract void handleMessage(Connection con);
 }

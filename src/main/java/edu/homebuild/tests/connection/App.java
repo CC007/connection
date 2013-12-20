@@ -1,6 +1,6 @@
 package edu.homebuild.tests.connection;
 
-import edu.homebuild.tests.connection.controller.ConnectionEstablishment;
+import edu.homebuild.tests.connection.controller.CommunicationEstablishment;
 import edu.homebuild.tests.connection.message.Message;
 import edu.homebuild.tests.connection.message.test.TestMessage;
 import edu.homebuild.tests.connection.messageobjects.test.TestObject;
@@ -21,8 +21,8 @@ public class App {
         try {
             InetSocketAddress a1 = new InetSocketAddress(InetAddress.getLocalHost(), 0);
             InetSocketAddress a2 = new InetSocketAddress(InetAddress.getLocalHost(), 0);
-            ConnectionEstablishment c1 = new ConnectionEstablishment();
-            ConnectionEstablishment c2 = new ConnectionEstablishment();
+            CommunicationEstablishment c1 = new CommunicationEstablishment();
+            CommunicationEstablishment c2 = new CommunicationEstablishment();
             c1.setName("Request thread");
             c2.setName("Reply thread");
             c1.openConnection(a1);
@@ -38,10 +38,10 @@ public class App {
             } catch (InterruptedException ex) {
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Message request = c2.receiveRequest();
+            Message request = c2.receiveMessage();
             if(request.getMessageType() == TestMessage.TEST){
                 System.out.println("Testrequest ontvangen");
-                ((TestObject)request.getMessage()).handleRequest(c2);
+                ((TestObject)request.getMessage()).handleMessage(c2);
             }
             try {
                 Thread.sleep(100);

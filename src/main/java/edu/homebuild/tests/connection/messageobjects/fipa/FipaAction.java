@@ -16,7 +16,7 @@ public class FipaAction extends FipaObject {
     }
 
     @Override
-    public void handleRequest(Connection con) {
+    public void handleMessage(Connection con) {
         throw new UnsupportedOperationException("Not supported yet."); //TODO implement handleRequest.
     }
 

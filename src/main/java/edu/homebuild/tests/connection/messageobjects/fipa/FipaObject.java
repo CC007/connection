@@ -4,13 +4,14 @@
 
 package edu.homebuild.tests.connection.messageobjects.fipa;
 
-import edu.homebuild.tests.connection.messageobjects.MessageObject;
+import edu.homebuild.tests.connection.controller.Connection;
+import edu.homebuild.tests.connection.messageobjects.ConnectionObject;
 import java.net.InetSocketAddress;
 
 /**
  * @author Rik Schaaf, University of Groningen
  */
-public abstract class FipaObject extends MessageObject{
+public abstract class FipaObject extends ConnectionObject{
     protected String content;
     protected String language;
     protected String replyWith;
@@ -27,5 +28,7 @@ public abstract class FipaObject extends MessageObject{
         this.ontology = ontology;
         this.protocol = protocol;
     }
+
+    public abstract void handleReply(Connection con);
     
 }

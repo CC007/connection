@@ -5,7 +5,7 @@
  */
 package edu.homebuild.tests.connection.message;
 
-import edu.homebuild.tests.connection.messageobjects.MessageObject;
+import edu.homebuild.tests.connection.messageobjects.ConnectionObject;
 
 /**
  *
@@ -13,10 +13,10 @@ import edu.homebuild.tests.connection.messageobjects.MessageObject;
  */
 public class ConnectionMessage implements Message {
 
-    protected final MessageObject message;
+    protected final ConnectionObject message;
     protected final int messageType;
 
-    public ConnectionMessage(MessageObject message, int messageType) {
+    public ConnectionMessage(ConnectionObject message, int messageType) {
         this.message = message;
         this.messageType = messageType;
     }

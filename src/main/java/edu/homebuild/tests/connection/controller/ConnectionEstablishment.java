@@ -26,26 +26,39 @@ public class ConnectionEstablishment extends Thread implements Connection {
     public static final int DEFAULT_TIMEOUT = 10;
     private ByteArrayInputStream bin = null;
     private ByteArrayOutputStream bout = null;
-    private ObjectInputStream in = null;
+    protected ObjectInputStream in = null;
     private ObjectOutputStream out = null;
     private DatagramPacket receivePacket = null;
     private DatagramPacket sendPacket = null;
     private DatagramSocket socket = null;
-    private ArrayList<Message> requestBuffer;
-    private ArrayList<Message> replyBuffer;
+    protected ArrayList<Message> messageBuffer;
     private InetSocketAddress address;
     private InetSocketAddress sendAddress;
     private boolean running;
 
     public ConnectionEstablishment() {
-        this.requestBuffer = new ArrayList<>();
-        this.replyBuffer = new ArrayList<>();
-
+        this.messageBuffer = new ArrayList<>();
     }
 
     public ConnectionEstablishment(int timeout, InetSocketAddress address) throws SocketException {
-        this();
         this.openConnection(timeout, address);
+        this.messageBuffer = new ArrayList<>();
+    }
+
+    public final void openConnection(int timeout, InetSocketAddress address) throws SocketException {
+        this.socket = new DatagramSocket(address);
+        this.socket.setSoTimeout(timeout);
+        this.address = (InetSocketAddress) this.socket.getLocalSocketAddress();
+    }
+
+    @Override
+    public final void openConnection(InetSocketAddress address) throws SocketException {
+        openConnection(DEFAULT_TIMEOUT, address);
+    }
+
+    @Override
+    public final void closeConnection() {
+        running = false;
     }
 
     @Override
@@ -54,23 +67,25 @@ public class ConnectionEstablishment extends Thread implements Connection {
     }
 
     @Override
-    public Message receiveRequest() {
-        if (!requestBuffer.isEmpty()) {
-            return requestBuffer.remove(0);
+    public Message receiveMessage() {
+        if (!messageBuffer.isEmpty()) {
+            return messageBuffer.remove(0);
         }
         return null;
     }
 
     @Override
-    public Message receiveReply() {
-        if (!replyBuffer.isEmpty()) {
-            return replyBuffer.remove(0);
-        }
-        return null;
+    public final InetSocketAddress getAddress() {
+        return address;
     }
 
     @Override
-    public void run() {
+    public final InetSocketAddress getSendAddress() {
+        return sendAddress;
+    }
+
+    @Override
+    public final void run() {
         running = true;
         while (running) {
             try {
@@ -82,20 +97,8 @@ public class ConnectionEstablishment extends Thread implements Connection {
         socket.close();
     }
 
-    public void openConnection(int timeout, InetSocketAddress address) throws SocketException {
-        this.socket = new DatagramSocket(address);
-        this.socket.setSoTimeout(timeout);
-        this.address = (InetSocketAddress) this.socket.getLocalSocketAddress();
-    }
-
-    @Override
-    public void openConnection(InetSocketAddress address) throws SocketException {
-        openConnection(DEFAULT_TIMEOUT, address);
-    }
-
-    @Override
-    public void closeConnection() {
-        running = false;
+    public final void setSendAddress(InetSocketAddress sendAddress) {
+        this.sendAddress = sendAddress;
     }
 
     private void prepareInputStream() {
@@ -112,7 +115,7 @@ public class ConnectionEstablishment extends Thread implements Connection {
         out = new ObjectOutputStream(bout);
     }
 
-    private void sendPacket(Object sendObject) {
+    protected final void sendPacket(Object sendObject) {
         try {
             prepareOutputStream();
             out.writeObject(sendObject);
@@ -124,7 +127,7 @@ public class ConnectionEstablishment extends Thread implements Connection {
         }
     }
 
-    private void receivePacket() throws IOException, ClassNotFoundException {
+    protected final void receivePacket() throws IOException, ClassNotFoundException {
         receivePacket = new DatagramPacket(new byte[4096], 4096);
         while (running) {
             try {
@@ -133,33 +136,16 @@ public class ConnectionEstablishment extends Thread implements Connection {
                 addMessageToBuffer();
                 break;
             } catch (SocketTimeoutException ex) {
-                continue;
+                //needed for stopping the socket, continue in the loop
             }
         }
     }
 
-    private void addMessageToBuffer() throws IOException, ClassNotFoundException {
+    protected void addMessageToBuffer() throws IOException, ClassNotFoundException {
         Object obj = in.readObject();
-        if (obj instanceof CommunicationMessage) {
-            CommunicationMessage msg = (CommunicationMessage) obj;
-            if (msg.isRequest()) {
-                requestBuffer.add(msg);
-            } else if (msg.isReply()) {
-                replyBuffer.add(msg);
-            }
+        if (obj instanceof ConnectionMessage) {
+            ConnectionMessage msg = (ConnectionMessage) obj;
+            messageBuffer.add(msg);
         }
     }
-
-    public InetSocketAddress getAddress() {
-        return address;
-    }
-
-    public InetSocketAddress getSendAddress() {
-        return sendAddress;
-    }
-
-    public void setSendAddress(InetSocketAddress sendAddress) {
-        this.sendAddress = sendAddress;
-    }
-
 }

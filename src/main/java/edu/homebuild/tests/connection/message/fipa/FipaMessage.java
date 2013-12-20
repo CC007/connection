@@ -4,7 +4,7 @@
 package edu.homebuild.tests.connection.message.fipa;
 
 import edu.homebuild.tests.connection.message.CommunicationMessage;
-import edu.homebuild.tests.connection.messageobjects.MessageObject;
+import edu.homebuild.tests.connection.messageobjects.ConnectionObject;
 
 /**
  * @author Rik Schaaf, University of Groningen
@@ -17,7 +17,7 @@ public class FipaMessage extends CommunicationMessage {
     public static final int FIPA_ACTION = 4;
     public static final int FIPA_ERROR = 5;
 
-    public FipaMessage(int messageDirection, int messageType, MessageObject message) {
+    public FipaMessage(int messageDirection, int messageType, ConnectionObject message) {
         super(messageDirection, message, messageType);
     }
 }

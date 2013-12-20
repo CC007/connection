@@ -4,20 +4,19 @@
 package edu.homebuild.tests.connection.messageobjects.test;
 
 import edu.homebuild.tests.connection.controller.Connection;
-import edu.homebuild.tests.connection.message.Message;
 import edu.homebuild.tests.connection.message.test.TestMessage;
-import edu.homebuild.tests.connection.messageobjects.MessageObject;
+import edu.homebuild.tests.connection.messageobjects.CommunicationObject;
 import java.net.InetSocketAddress;
 
 /**
  * @author Rik Schaaf, University of Groningen
  */
-public class TestObject extends MessageObject {
+public class TestObject extends CommunicationObject {
 
     public static final int PERFORM_TEST = 1;
     public static final int TEST_OK = 10;
     public static final int TEST_FAILED = 11;
-    private int status;
+    private final int status;
 
     public TestObject(int status, InetSocketAddress sender, InetSocketAddress receiver) {
         super(sender, receiver);
@@ -25,7 +24,7 @@ public class TestObject extends MessageObject {
     }
 
     @Override
-    public void handleRequest(Connection con) {
+    public void handleMessage(Connection con) {
         if (status == PERFORM_TEST) {
             con.sendMessage(new TestMessage(TestMessage.MESSAGE_REPLY, TestMessage.TEST, new TestObject(TestObject.TEST_OK, receiver, sender)));
             System.out.println("Request received, reply send.");

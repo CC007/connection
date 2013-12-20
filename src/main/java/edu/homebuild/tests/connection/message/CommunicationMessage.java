@@ -3,7 +3,7 @@
  */
 package edu.homebuild.tests.connection.message;
 
-import edu.homebuild.tests.connection.messageobjects.MessageObject;
+import edu.homebuild.tests.connection.messageobjects.ConnectionObject;
 
 /**
  * @author Rik Schaaf, University of Groningen
@@ -12,7 +12,7 @@ public class CommunicationMessage extends ConnectionMessage implements Communica
 
     protected final int messageDirection;
 
-    public CommunicationMessage(int messageDirection, MessageObject message, int messageType) {
+    public CommunicationMessage(int messageDirection, ConnectionObject message, int messageType) {
         super(message, messageType);
         this.messageDirection = messageDirection;
     }
