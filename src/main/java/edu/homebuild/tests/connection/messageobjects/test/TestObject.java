@@ -18,7 +18,7 @@ public class TestObject extends CommunicationObject {
     public static final int TEST_FAILED = 11;
     private final int status;
 
-    public TestObject(int status, InetSocketAddress sender, InetSocketAddress receiver) {
+    public TestObject(InetSocketAddress sender, InetSocketAddress receiver, int status) {
         super(sender, receiver);
         this.status = status;
     }
@@ -26,7 +26,7 @@ public class TestObject extends CommunicationObject {
     @Override
     public void handleMessage(edu.homebuild.tests.connection.controller.Connection con, Object obj) {
         if (status == PERFORM_TEST) {
-            con.sendMessage(new TestMessage(TestMessage.MESSAGE_REPLY, TestMessage.TEST, new TestObject(TestObject.TEST_OK, receiver, sender)));
+            con.sendMessage(new TestMessage(TestMessage.MESSAGE_REPLY, TestMessage.TEST, new TestObject(receiver, sender, TestObject.TEST_OK)));
             System.out.println("Request received, reply send.");
         }
     }

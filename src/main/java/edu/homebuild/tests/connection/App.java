@@ -32,7 +32,7 @@ public class App {
             c1.start();
             c2.start();
             System.out.println("Attempt testmessage from c1 to c2");
-            c1.sendMessage(new TestMessage(TestMessage.MESSAGE_REQUEST, TestMessage.TEST, new TestObject(TestObject.PERFORM_TEST, c1.getAddress(), c1.getSendAddress())));
+            c1.sendMessage(new TestMessage(TestMessage.MESSAGE_REQUEST, TestMessage.TEST, new TestObject(c1.getAddress(), c1.getSendAddress(), TestObject.PERFORM_TEST)));
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {
