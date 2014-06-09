@@ -37,15 +37,17 @@ public class ConnectionEstablishment extends Thread implements Connection {
     private boolean running;
 
     /**
-     * Create a <code>ConnectionEstablishment</code> object without setting a socket address from where to connect or setting the connection timeout.
+     * Create a <code>ConnectionEstablishment</code> object without setting a
+     * socket address from where to connect or setting the connection timeout.
      */
     public ConnectionEstablishment() {
         this.messageBuffer = new ArrayList<>();
     }
 
     /**
-     * Create a <code>ConnectionEstablishment</code> object, set a socket address from where to connect and set the connection timeout.
-     * 
+     * Create a <code>ConnectionEstablishment</code> object, set a socket
+     * address from where to connect and set the connection timeout.
+     *
      * @param timeout the connection timeout for receiving data
      * @param address the socket addres from where to connect
      * @throws java.net.SocketException
@@ -55,22 +57,58 @@ public class ConnectionEstablishment extends Thread implements Connection {
         this.messageBuffer = new ArrayList<>();
     }
 
+    /**
+     * Open a socket to send and receive data. Also set the connection timeout
+     * of the connection.
+     *
+     * @param timeout the connection timeout for receiving data
+     * @param address the <code>InetSocketAddress</code> from where you want to
+     * connect.
+     * @throws SocketException
+     */
     public final void openConnection(int timeout, InetSocketAddress address) throws SocketException {
         this.socket = new DatagramSocket(address);
         this.socket.setSoTimeout(timeout);
         this.address = (InetSocketAddress) this.socket.getLocalSocketAddress();
     }
 
+    /**
+     * Open a socket to send and receive data.
+     *
+     * @param address the <code>InetSocketAddress</code> from where you want to
+     * connect.
+     * @throws SocketException
+     */
     @Override
     public final void openConnection(InetSocketAddress address) throws SocketException {
         openConnection(DEFAULT_TIMEOUT, address);
     }
 
+    /**
+     * Close the socket that was opened by this connection.
+     */
     @Override
     public final void closeConnection() {
         running = false;
     }
 
+    /**
+     * Set the <code>InetSocketAddress</code> to which you want connect
+     *
+     * @param sendAddress the <code>InetSocketAddress</code> to which you want
+     * connect
+     */
+    @Override
+    public final void setSendAddress(InetSocketAddress sendAddress) {
+        this.sendAddress = sendAddress;
+    }
+
+    /**
+     * Send a message to the socket you are connected to.
+     *
+     * @param msg The message of type <code>Message</code> that you want to send
+     * over the connection.
+     */
     @Override
     public void sendMessage(Message msg) {
         sendPacket(msg);
@@ -109,11 +147,6 @@ public class ConnectionEstablishment extends Thread implements Connection {
             }
         }
         socket.close();
-    }
-
-    @Override
-    public final void setSendAddress(InetSocketAddress sendAddress) {
-        this.sendAddress = sendAddress;
     }
 
     private void prepareInputStream() {
