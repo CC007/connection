@@ -14,6 +14,6 @@ public class TestMessage extends CommunicationMessage {
     public static final int TEST = 1;
 
     public TestMessage(int messageDirection, int messageType, ConnectionObject message) {
-        super(messageDirection, message, messageType);
+        super(messageDirection, messageType, message);
     }
 }

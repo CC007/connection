@@ -18,6 +18,6 @@ public class FipaMessage extends CommunicationMessage {
     public static final int FIPA_ERROR = 5;
 
     public FipaMessage(int messageDirection, int messageType, ConnectionObject message) {
-        super(messageDirection, message, messageType);
+        super(messageDirection,  messageType, message);
     }
 }

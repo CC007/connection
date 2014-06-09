@@ -12,8 +12,8 @@ public class CommunicationMessage extends ConnectionMessage implements Communica
 
     protected final int messageDirection;
 
-    public CommunicationMessage(int messageDirection, ConnectionObject message, int messageType) {
-        super(message, messageType);
+    public CommunicationMessage(int messageDirection, int messageType, ConnectionObject message) {
+        super(messageType, message);
         this.messageDirection = messageDirection;
     }
 

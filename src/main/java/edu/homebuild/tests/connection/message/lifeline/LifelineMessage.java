@@ -18,7 +18,7 @@ public class LifelineMessage extends ConnectionMessage{
     public static final int SIMPLE_LIFELINE = 1;
     public static final int SMART_LIFELINE = 2;
     public LifelineMessage(ConnectionObject message, int messageType) {
-        super(message, messageType);
+        super(messageType, message);
     }
     
 }

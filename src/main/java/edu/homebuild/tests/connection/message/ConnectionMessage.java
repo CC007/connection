@@ -16,7 +16,7 @@ public class ConnectionMessage implements Message {
     protected final ConnectionObject message;
     protected final int messageType;
 
-    public ConnectionMessage(ConnectionObject message, int messageType) {
+    public ConnectionMessage(int messageType, ConnectionObject message) {
         this.message = message;
         this.messageType = messageType;
     }
