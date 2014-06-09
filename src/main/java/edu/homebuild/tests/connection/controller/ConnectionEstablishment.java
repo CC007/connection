@@ -36,10 +36,20 @@ public class ConnectionEstablishment extends Thread implements Connection {
     private InetSocketAddress sendAddress;
     private boolean running;
 
+    /**
+     * Create a <code>ConnectionEstablishment</code> object without setting a socket address from where to connect or setting the connection timeout.
+     */
     public ConnectionEstablishment() {
         this.messageBuffer = new ArrayList<>();
     }
 
+    /**
+     * Create a <code>ConnectionEstablishment</code> object, set a socket address from where to connect and set the connection timeout.
+     * 
+     * @param timeout the connection timeout for receiving data
+     * @param address the socket addres from where to connect
+     * @throws java.net.SocketException
+     */
     public ConnectionEstablishment(int timeout, InetSocketAddress address) throws SocketException {
         this.openConnection(timeout, address);
         this.messageBuffer = new ArrayList<>();
