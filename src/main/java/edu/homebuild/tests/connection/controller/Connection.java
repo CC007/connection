@@ -1,5 +1,8 @@
 /*
- * 
+ * edu.homebuild.test.connection and its classes and sub-packages by Rik Schaaf are licensed under a Creative Commons Attribution-ShareAlike 4.0 International License. 
+ * Based on a work at https://github.com/killje/asteroids2.
+ *
+ * This project is a WIP. No guarantees are given that everyting will work as it should.
  */
 package edu.homebuild.tests.connection.controller;
 
