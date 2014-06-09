@@ -8,9 +8,12 @@ package edu.homebuild.tests.connection.controller;
 import edu.homebuild.tests.connection.message.CommunicationMessage;
 import edu.homebuild.tests.connection.message.Message;
 import java.io.IOException;
+import java.io.StreamCorruptedException;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -38,14 +41,24 @@ public class CommunicationEstablishment extends ConnectionEstablishment implemen
     }
 
     @Override
-    protected void addMessageToBuffer() throws IOException, ClassNotFoundException {
-        Object obj = in.readObject();
-        if (obj instanceof Message && obj instanceof edu.homebuild.tests.connection.message.Communication) {
-            CommunicationMessage msg = (CommunicationMessage) obj;
-            if (msg.isRequest()) {
-                messageBuffer.add(msg);
-            } else if (msg.isReply()) {
-                replyBuffer.add(msg);
+    protected void addMessageToBuffer() throws StreamCorruptedException, ClassNotFoundException, IllegalArgumentException {
+        try {
+            Object obj = in.readObject();
+            if (obj instanceof Message && obj instanceof edu.homebuild.tests.connection.message.Communication) {
+                CommunicationMessage msg = (CommunicationMessage) obj;
+                if (msg.isRequest()) {
+                    messageBuffer.add(msg);
+                } else if (msg.isReply()) {
+                    replyBuffer.add(msg);
+                }
+            } else {
+                throw new IllegalArgumentException("Class has to be of type CommunicationMessage!");
+            }
+        } catch (IOException ex) {
+            if (ex instanceof StreamCorruptedException) {
+                throw (StreamCorruptedException) ex;
+            } else {
+                Logger.getLogger(ConnectionEstablishment.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
