@@ -8,7 +8,7 @@ import edu.homebuild.tests.connection.messageobjects.ConnectionObject;
 /**
  * @author Rik Schaaf, University of Groningen
  */
-public class CommunicationMessage extends ConnectionMessage implements Communication{
+public class CommunicationMessage extends ConnectionMessage implements MessageDirection{
 
     protected final int messageDirection;
 

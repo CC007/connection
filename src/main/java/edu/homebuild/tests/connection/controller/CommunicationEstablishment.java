@@ -44,7 +44,7 @@ public class CommunicationEstablishment extends ConnectionEstablishment implemen
     protected void addMessageToBuffer() throws StreamCorruptedException, ClassNotFoundException, IllegalArgumentException {
         try {
             Object obj = in.readObject();
-            if (obj instanceof Message && obj instanceof edu.homebuild.tests.connection.message.Communication) {
+            if (obj instanceof Message && obj instanceof edu.homebuild.tests.connection.message.MessageDirection) {
                 CommunicationMessage msg = (CommunicationMessage) obj;
                 if (msg.isRequest()) {
                     messageBuffer.add(msg);

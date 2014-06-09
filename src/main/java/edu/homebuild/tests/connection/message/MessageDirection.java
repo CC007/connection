@@ -9,7 +9,7 @@ package edu.homebuild.tests.connection.message;
  *
  * @author Rik
  */
-public interface Communication {
+public interface MessageDirection {
 
     // Two message directions that should be included
     public static final int MESSAGE_REQUEST = 1;
